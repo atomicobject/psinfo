@@ -1,6 +1,6 @@
 Feature: Help documentation
   As a user of the client application
-  I want to see help for how to run it
+  I want to see help on how to run it
 
   Scenario: Running client with no parameters
       When I run the client with parameters ""
@@ -11,3 +11,4 @@ Feature: Help documentation
       When I run the client with parameters "--help"
       Then the output should contain "client"
         And the output should contain "usage"
+        And the output should contain "ping"
