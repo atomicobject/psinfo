@@ -3,6 +3,6 @@ Feature: Ping command
   I want to ping the server and see a response
 
     Scenario: Pinging the server
-      When the server is online
-        And I contact the server with the command "ping"
+      Given the server is online
+      When I ping the server
       Then the output should contain "pong"

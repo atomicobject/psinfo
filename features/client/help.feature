@@ -12,3 +12,5 @@ Feature: Help documentation
       Then the output should contain "client"
         And the output should contain "usage"
         And the output should contain "ping"
+        And the output should contain "put"
+        And the output should contain "get"

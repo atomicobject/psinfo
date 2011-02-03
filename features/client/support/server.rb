@@ -1,7 +1,5 @@
 class Server
-  class Stopit < RuntimeError
-  end
-
+  class Stopit < RuntimeError; end
   IP = "127.0.0.1"
   PORT = "1234"
 

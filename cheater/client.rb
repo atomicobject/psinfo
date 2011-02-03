@@ -3,8 +3,11 @@ require "socket"
 
 if ARGV.size < 3 or ARGV.first == "--help"
   puts "usage: client.rb <server ip> <server port> <command> <command options...>"
-  puts "\t valid commands:"
-  puts "\t ping - ping the server and print the response"
+  puts "\tvalid commands:"
+  puts "\tping - ping the server and print the response"
+  puts "\tput <id> <pid> <name> - add a unique name for an id and pid"
+  puts "\tget <id> - get all of the pid and names for an id"
+  puts "\tping - ping the server and print the response"
   exit 0
 end
 
