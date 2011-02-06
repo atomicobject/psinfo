@@ -30,6 +30,13 @@ class Server
           data[id] ||= []
           data[id] << [pid, name]
           @socket.puts "ACK"
+        when "get"
+          stuff = data[id]
+          if stuff.nil?
+            @socket.puts "NACK"
+          else
+            stuff.each { |(pid, name)| @socket.puts "#{pid} #{name}" }
+          end
         else
           @socket.puts "NACK"
         end

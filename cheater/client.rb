@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 require "socket"
 
-if ARGV.size < 3 or ARGV.first == "--help"
+def help
   puts "usage: client.rb <server ip> <server port> <command> <command options...>"
   puts "\tvalid commands:"
   puts "\tping - ping the server and print the response"
@@ -11,6 +11,8 @@ if ARGV.size < 3 or ARGV.first == "--help"
   exit 0
 end
 
+help if ARGV.size < 3 or ARGV.first == "--help"
+
 ip, port, command = ARGV.shift, ARGV.shift, ARGV.shift
 socket = TCPSocket.new(ip, port)
 case command.strip
@@ -19,5 +21,10 @@ when "ping"
 when "put"
   id, pid, name = ARGV.shift, ARGV.shift, ARGV.shift
   socket.puts "put #{id} #{pid} #{name}"
+when "get"
+  id = ARGV.shift
+  socket.puts "get #{id}"
+else
+  help
 end
 puts socket.gets
