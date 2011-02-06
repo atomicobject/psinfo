@@ -18,13 +18,17 @@ socket = TCPSocket.new(ip, port)
 case command.strip
 when "ping"
   socket.puts "ping"
+  puts socket.gets
 when "put"
   id, pid, name = ARGV.shift, ARGV.shift, ARGV.shift
   socket.puts "put #{id} #{pid} #{name}"
+  puts socket.gets
 when "get"
   id = ARGV.shift
   socket.puts "get #{id}"
+  response = socket.gets.chomp.to_i
+  if response.zero? then exit 1
+  else; response.times { puts socket.gets }; end
 else
   help
 end
-puts socket.gets

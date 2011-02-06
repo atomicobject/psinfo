@@ -4,6 +4,10 @@ at_exit do
   Server.stop
 end
 
+After do
+  Server.clear
+end
+
 Given /^the server is online$/ do
   Server.start(Server::IP, Server::PORT)
 end
@@ -26,4 +30,12 @@ end
 
 When /^I get the pairs for id "([^"]*)"$/ do |id|
   When %+I run the client with parameters "#{Server::IP} #{Server::PORT} get #{id}"+
+end
+
+Then /^the client should receive a positive response$/ do
+  Then %+the output should contain "ACK"+
+end
+
+Then /^the client should receive a negative response$/ do
+  Then %+the output should contain "NACK"+
 end

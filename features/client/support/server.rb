@@ -5,8 +5,9 @@ class Server
 
   class << self
     def start(ip = IP, port = PORT)
+      # TODO: don't start if already running
       @thread = Thread.new do
-        Server.new.start(ip, port, @responses)
+        Server.new.start(ip, port)
       end
     end
 
@@ -14,31 +15,41 @@ class Server
       @thread.raise(Stopit) if @thread
       @thread = nil
     end
+
+    def clear
+      @data = {}
+    end
   end
 
-  def start(ip = IP, port = PORT, responses = {})
-    data = {}
+  def nack
+    @socket.puts "NACK"
+  end
+
+  def ack
+    @socket.puts "ACK"
+  end
+
+  def start(ip = IP, port = PORT)
+    @@data = {}
     begin
       server = TCPServer.open(ip, port)
       while (@socket = server.accept) do
         command = @socket.gets.strip.split(" ")
         case command.shift
-        when "ping"
-          @socket.puts "pong"
+        when "ping"; ack
         when "put"
           id, pid, name = command.shift, command.shift, command.shift
-          data[id] ||= []
-          data[id] << [pid, name]
-          @socket.puts "ACK"
+          @@data[id] ||= []
+          @@data[id] << [pid, name]
+          ack
         when "get"
-          stuff = data[id]
-          if stuff.nil?
-            @socket.puts "NACK"
+          stuff = @@data[command.shift]
+          if stuff.nil? then nack
           else
+            @socket.puts stuff.size
             stuff.each { |(pid, name)| @socket.puts "#{pid} #{name}" }
           end
-        else
-          @socket.puts "NACK"
+        else; nack
         end
         @socket.close
       end

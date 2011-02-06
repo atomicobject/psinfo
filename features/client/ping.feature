@@ -5,4 +5,4 @@ Feature: Ping command
     Scenario: Pinging the server
       Given the server is online
       When I ping the server
-      Then the output should contain "pong"
+      Then the client should receive a positive response
