@@ -6,5 +6,3 @@ Feature: Halting the server
     Given the server is online
     When I send "SIGUSR1" to the server
     Then the server should exit
-      And the exit status should be 0
-

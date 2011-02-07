@@ -9,4 +9,12 @@ def help
   exit 0
 end
 
-help if ARGV.size < 3 or ARGV.first == "--help"
+help if ARGV.size < 3 or ARGV.first != "start"
+
+keep_going = true
+trap "USR1" do
+  keep_going = false
+end
+
+while keep_going do
+end
