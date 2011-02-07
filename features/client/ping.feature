@@ -6,3 +6,4 @@ Feature: Ping command
       Given the server is online
       When I ping the server
       Then the client should receive a positive response
+        And the exit status should be 0

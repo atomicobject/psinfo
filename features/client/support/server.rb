@@ -5,7 +5,7 @@ class Server
 
   class << self
     def start(ip = IP, port = PORT)
-      # TODO: don't start if already running
+      return unless @thread.nil?
       @thread = Thread.new do
         Server.new.start(ip, port)
       end
@@ -17,7 +17,7 @@ class Server
     end
 
     def clear
-      @data = {}
+      @@data = {}
     end
   end
 
