@@ -34,8 +34,7 @@ end
 
 When /^I send "([^"]*)" to the server$/ do |signal|
   # Yes, I know I'm breaking encapsulation. I need that pid!
-  pid = ServerState.server.instance_variable_get("@pid")
-  Process.kill(signal, pid)
+  Process.kill(signal, ServerState.server.pid)
 end
 
 Then /^the server should exit$/ do
