@@ -33,7 +33,6 @@ When /^I run the server with parameters "([^"]*)"$/ do |params|
 end
 
 When /^I send "([^"]*)" to the server$/ do |signal|
-  # Yes, I know I'm breaking encapsulation. I need that pid!
   Process.kill(signal, ServerState.server.pid)
 end
 
