@@ -18,12 +18,15 @@ class ServerState
 end
 
 Before do
-  [ @pairs, @ping_response ].each { |ivar| ivar = nil }
+  [ @pairs, @ping_response, @put_response, @bad_response ].each { |ivar| ivar = nil }
 end
 
 at_exit do
   ServerState.server.stop if ServerState.server
 end
+
+def verify_ack(str); str.strip.should == "ACK"; end
+def verify_nack(str); str.strip.should == "NACK"; end
 
 Given /^the server is online$/ do
   if ServerState.server.nil? or not ServerState.server.alive?
@@ -59,7 +62,8 @@ def cmd(*args)
 end
 
 When /^I put the pid "([^"]*)" with the name "([^"]*)" for id "([^"]*)"$/ do |pid, name, id|
-  cmd "put", pid, name, id
+  @put_response = cmd "put", pid, name, id
+  verify_ack @put_response
 end
 
 When /^I get the pairs for id "([^"]*)"$/ do |id|
@@ -76,9 +80,6 @@ Then /^the pid "([^"]*)" with the name "([^"]*)" should be returned$/ do |pid, n
   pair.should be
   pair[:name].should == name
 end
-
-def verify_ack(str); str.strip.should == "ACK"; end
-def verify_nack(str); str.strip.should == "NACK"; end
 
 When /^I ping the server$/ do
   @ping_response = cmd "ping"
