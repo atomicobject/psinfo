@@ -27,9 +27,9 @@ end
 def ack; @socket.puts "ACK"; end
 def nack; @socket.puts "NACK"; end
 
+@server = TCPServer.open(ip, port)
+data = Hash.new {|h, k| h[k] = []}
 while keep_going do
-  data = {}
-  @server = TCPServer.open(ip, port)
   @socket = @server.accept
   command = @socket.gets.strip.split(/\s+/)
   case command.shift
@@ -38,8 +38,16 @@ while keep_going do
     id, pid, name = command.shift, command.shift, command.shift
     data[id] << [pid, name]
     ack
+  when "get"
+    stuff = data[command.shift]
+    if stuff.nil? then nack
+    else
+      @socket.puts stuff.size
+      stuff.each { |(pid, name)| @socket.puts "#{pid} #{name}" }
+    end
   else; nack
   end
+  @socket.close
 end
 
 close_sockets

@@ -1,3 +1,4 @@
+@announce
 Feature: Put and get commands
   As a server
   I want to store a list of pid and names given to me by a client

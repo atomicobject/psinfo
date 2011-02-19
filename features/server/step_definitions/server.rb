@@ -27,6 +27,7 @@ end
 
 def verify_ack(str); str.strip.should == "ACK"; end
 def verify_nack(str); str.strip.should == "NACK"; end
+def verify_not_nack(str); str.should_not match("NACK"); end
 
 Given /^the server is online$/ do
   if ServerState.server.nil? or not ServerState.server.alive?
@@ -67,17 +68,24 @@ When /^I put the pid "([^"]*)" with the name "([^"]*)" for id "([^"]*)"$/ do |pi
 end
 
 When /^I get the pairs for id "([^"]*)"$/ do |id|
-  blob = cmd "get", id
   @pairs = []
-  blob.each_line do |line|
-    pair = line.strip.split(/\s+/)
-    @pairs << { :pid => pair.first, :name => pair.last }
+  TCPSocket.open(IP, PORT) do |conn|
+    conn.puts "get #{id}"
+    size = conn.gets.strip
+    pp size
+    verify_not_nack size
+    size.to_i.times do
+      pair = conn.gets.strip.split(/\s+/)
+      @pairs << { :pid => pair.first, :name => pair.last }
+    end
   end
+  require "pp"
+  pp @pairs
 end
 
 Then /^the pid "([^"]*)" with the name "([^"]*)" should be returned$/ do |pid, name|
   pair = @pairs.find { |p| p[:pid] == pid }
-  pair.should be
+  pair.should_not be_nil
   pair[:name].should == name
 end
 
