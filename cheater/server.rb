@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 require "socket"
+require "pp"
 
 def help
   puts "usage: server.rb <ip> <port> <start>"
@@ -30,7 +31,14 @@ def nack; @socket.puts "NACK"; end
 @server = TCPServer.open(ip, port)
 data = Hash.new {|h, k| h[k] = []}
 while keep_going do
-  @socket = @server.accept
+  begin
+    @socket = @server.accept
+  rescue Errno::EBADF => ok
+    # thrown when @server.accept interrupted by SIGUSR1
+    # swallow and allow program to shutdown
+    @server = nil
+    next
+  end
   command = @socket.gets.strip.split(/\s+/)
   case command.shift
   when "ping"; ack
@@ -40,7 +48,7 @@ while keep_going do
     ack
   when "get"
     stuff = data[command.shift]
-    if stuff.nil? then nack
+    if stuff.empty? then nack
     else
       @socket.puts stuff.size
       stuff.each { |(pid, name)| @socket.puts "#{pid} #{name}" }
@@ -48,6 +56,7 @@ while keep_going do
   else; nack
   end
   @socket.close
+  @socket = nil
 end
 
 close_sockets

@@ -1,5 +1,6 @@
 require "aruba/cucumber"
 require "socket"
+require "pp"
 
 IP = "localhost"
 PORT = "1234"
@@ -18,16 +19,17 @@ class ServerState
 end
 
 Before do
-  [ @pairs, @ping_response, @put_response, @bad_response ].each { |ivar| ivar = nil }
+  [ @pairs, @response ].each { |ivar| ivar = nil }
 end
 
 at_exit do
   ServerState.server.stop if ServerState.server
 end
 
+def nack?(str); str.strip == "NACK"; end
 def verify_ack(str); str.strip.should == "ACK"; end
-def verify_nack(str); str.strip.should == "NACK"; end
-def verify_not_nack(str); str.should_not match("NACK"); end
+def verify_nack(str); nack?(str).should be_true; end
+def verify_not_nack(str); nack?(str).should be_false; end
 
 Given /^the server is online$/ do
   if ServerState.server.nil? or not ServerState.server.alive?
@@ -63,24 +65,22 @@ def cmd(*args)
 end
 
 When /^I put the pid "([^"]*)" with the name "([^"]*)" for id "([^"]*)"$/ do |pid, name, id|
-  @put_response = cmd "put", pid, name, id
-  verify_ack @put_response
+  @response = cmd "put", id, pid, name
+  verify_ack @response
 end
 
 When /^I get the pairs for id "([^"]*)"$/ do |id|
   @pairs = []
   TCPSocket.open(IP, PORT) do |conn|
     conn.puts "get #{id}"
-    size = conn.gets.strip
-    pp size
-    verify_not_nack size
-    size.to_i.times do
-      pair = conn.gets.strip.split(/\s+/)
-      @pairs << { :pid => pair.first, :name => pair.last }
+    @response = conn.gets.strip
+    if not nack?(@response)
+      @response.to_i.times do
+        pair = conn.gets.strip.split(/\s+/)
+        @pairs << { :pid => pair.first, :name => pair.last }
+      end
     end
   end
-  require "pp"
-  pp @pairs
 end
 
 Then /^the pid "([^"]*)" with the name "([^"]*)" should be returned$/ do |pid, name|
@@ -90,17 +90,17 @@ Then /^the pid "([^"]*)" with the name "([^"]*)" should be returned$/ do |pid, n
 end
 
 When /^I ping the server$/ do
-  @ping_response = cmd "ping"
+  @response = cmd "ping"
 end
 
 Then /^the client should receive a positive response$/ do
-  verify_ack @ping_response
+  verify_ack @response
 end
 
 When /^I send a bad command$/ do
-  @bad_response = cmd "woops"
+  @response = cmd "woops"
 end
 
 Then /^the client should receive a negative response$/ do
-  verify_nack @bad_response
+  verify_nack @response
 end

@@ -9,4 +9,6 @@ namespace :cuke do
   Cucumber::Rake::Task.new("server") do |t|
     t.cucumber_opts = %w{--format pretty features/server}
   end
+
+  task :all => %w[ client server ]
 end
