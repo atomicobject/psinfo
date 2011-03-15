@@ -17,9 +17,14 @@ GEM
     diff-lcs (1.1.2)
     ffi (0.6.3)
       rake (>= 0.8.7)
+    ffi (0.6.3-x86-mingw32)
+      rake (>= 0.8.7)
     gherkin (2.3.3)
       json (~> 1.4.6)
+    gherkin (2.3.3-x86-mingw32)
+      json (~> 1.4.6)
     json (1.4.6)
+    json (1.4.6-x86-mingw32)
     rake (0.8.7)
     rspec (2.3.0)
       rspec-core (~> 2.3.0)
@@ -33,6 +38,7 @@ GEM
 
 PLATFORMS
   ruby
+  x86-mingw32
 
 DEPENDENCIES
   aruba (= 0.3.2)
