@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+require "childprocess"
 require "socket"
 require "pp"
 
@@ -20,9 +21,11 @@ def close_sockets
 end
 
 keep_going = true
-trap "USR1" do
-  keep_going = false
-  close_sockets
+if ChildProcess.unix?
+  trap "USR1" do
+    keep_going = false
+    close_sockets
+  end
 end
 
 def ack; @socket.puts "ACK"; end

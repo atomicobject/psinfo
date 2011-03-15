@@ -1,5 +1,5 @@
 Feature: Halting the server
-  As a user operating the server
+  As a user operating the server under unix
   I want to be able to halt the server with a signal
 
   Scenario: Sending SIGUSR1 to the server

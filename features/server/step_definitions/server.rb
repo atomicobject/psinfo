@@ -46,12 +46,16 @@ When /^I run the server with parameters "([^"]*)"$/ do |params|
 end
 
 When /^I send "([^"]*)" to the server$/ do |signal|
-  Process.kill(signal, ServerState.server.pid)
+  if ChildProcess.unix?
+    Process.kill(signal, ServerState.server.pid)
+  end
 end
 
 Then /^the server should exit$/ do
-  poll "server didn't exit in time" do
-    ServerState.server.alive? == false
+  if ChildProcess.unix?
+    poll "server didn't exit in time" do
+      ServerState.server.alive? == false
+    end
   end
 end
 
