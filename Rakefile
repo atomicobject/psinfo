@@ -1,5 +1,6 @@
 require "./config/env"
 require 'cucumber/rake/task'
+load "vendor/ceedling/lib/rakefile.rb"
 
 namespace :cuke do
   Cucumber::Rake::Task.new("client") do |t|
