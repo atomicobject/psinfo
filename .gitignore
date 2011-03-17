@@ -1,3 +1,5 @@
 .bundle
 bin
 tmp
+build/*
+!build/.gitkeep
