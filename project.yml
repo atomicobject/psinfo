@@ -1,59 +1,48 @@
 ---
+
 :project:
   :use_exceptions: FALSE
-  :use_test_preprocessor: TRUE
+  :use_preprocessor: TRUE
   :use_auxiliary_dependencies: TRUE
-  :build_root: build
   :release_build: TRUE
-  :test_file_prefix: Test
-
-:release_build:
-  :output: client.out
-  :use_assembly: FALSE
-
-:environment:
-
-:extension:
-  :executable: .out
+  :build_root: build
 
 :paths:
   :test:
-    - +:test/**
-    - -:test/support
+    - tests/**
   :source:
-    - src/**
-  :support:
-    - test/support
+    - source/**
+  :include:
+    - include
 
 :defines:
-  :commmon: &common_defines
+  :common: &common_defines
+    - FOOBAR
   :test:
     - *common_defines
-    - TEST
-  :test_preprocess:
+  :release:
     - *common_defines
-    - TEST
+
+:test_runner:
+  :includes:
+    - types.h
 
 :cmock:
+  :mock_prefix: mock_
   :when_no_prototypes: :warn
   :enforce_strict_ordering: TRUE
+  :includes:
+    - types.h
   :plugins:
-    - :ignore
+    - ignore
   :treat_as:
-    uint8:    HEX8
-    uint16:   HEX16
-    uint32:   UINT32
-    int8:     INT8
-    bool:     UINT8
-
-#:tools:
-# Ceedling defaults to using gcc for compiling, linking, etc.
-# As [:tools] is blank, gcc will be used (so long as it's in your system path)
-# See documentation to configure a given toolchain for use
+    UINT: INT
+    Status_T: INT
 
 :plugins:
-  # :load_paths:
-  #   - ../../plugins
+  :load_paths:
+    - "#{File.join(PROJECT_CEEDLING_ROOT, 'plugins')}"
   :enabled:
     - stdout_pretty_tests_report
+
 ...
