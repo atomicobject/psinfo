@@ -1,0 +1,48 @@
+---
+
+:project:
+  :use_exceptions: FALSE
+  :use_preprocessor: TRUE
+  :use_auxiliary_dependencies: TRUE
+  :release_build: TRUE
+  :build_root: build
+
+:paths:
+  :test:
+    - tests/**
+  :source:
+    - source/**
+  :include:
+    - include
+
+:defines:
+  :common: &common_defines
+    - FOOBAR
+  :test:
+    - *common_defines
+  :release:
+    - *common_defines
+
+:test_runner:
+  :includes:
+    - types.h
+
+:cmock:
+  :mock_prefix: mock_
+  :when_no_prototypes: :warn
+  :enforce_strict_ordering: TRUE
+  :includes:
+    - types.h
+  :plugins:
+    - ignore
+  :treat_as:
+    UINT: INT
+    Status_T: INT
+
+:plugins:
+  :load_paths:
+    - "#{File.join(PROJECT_CEEDLING_ROOT, 'plugins')}"
+  :enabled:
+    - stdout_pretty_tests_report
+
+...
