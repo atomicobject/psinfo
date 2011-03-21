@@ -42,7 +42,14 @@ Given /^the server is online$/ do
 end
 
 When /^I run the server with parameters "([^"]*)"$/ do |params|
-  When %+I run "ruby #{APP_ROOT}/cheater/server.rb #{params}"+
+  if ENV["cheat"] or ENV["CHEAT"]
+    When %+I run "ruby #{APP_ROOT}/cheater/server.rb #{params}"+
+  else
+    server_dir = "build/artifacts/release"
+    server = "#{APP_ROOT}/#{server_dir}/server.exe"
+    raise "There's no server in [#{server_dir}] ... try run [rake release] first." unless File.exist?(server)
+    When %+I run "#{server} #{params}"+
+  end
 end
 
 When /^I send "([^"]*)" to the server$/ do |signal|
