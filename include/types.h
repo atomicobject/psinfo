@@ -1,5 +1,5 @@
-#ifndef _TYPES_H_
-#define _TYPES_H_
+#ifndef _SAMPLE_TYPES_H_
+#define _SAMPLE_TYPES_H_
 
 
 typedef unsigned int UINT;
@@ -23,4 +23,4 @@ typedef struct _DataStruct_T
 } DataStruct_T;
 
 
-#endif // _TYPES_H_
+#endif // _SAMPLE_TYPES_H_
