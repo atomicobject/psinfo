@@ -7,6 +7,13 @@ load "#{PROJECT_CEEDLING_ROOT}/lib/rakefile.rb"
 
 task :default => [:clobber, "test:all", :release]
 
+namespace :fake do
+  desc "run fake server on localhost:9876"
+  task :server do
+    sh "ruby -rconfig/env.rb cheater/server.rb start localhost 9876"
+  end
+end
+
 namespace :cuke do
   Cucumber::Rake::Task.new("client") do |t|
     t.cucumber_opts = %w{--format pretty features/client}
