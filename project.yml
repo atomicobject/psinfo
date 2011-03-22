@@ -39,10 +39,21 @@
     UINT: INT
     Status_T: INT
 
+:module_generator:
+  :source_root: source 
+  :test_root: tests
+  :test_includes:
+    - types.h
+  :source_includes:
+    - types.h
+  :header_includes:
+    - types.h
+
 :plugins:
   :load_paths:
     - "#{File.join(PROJECT_CEEDLING_ROOT, 'plugins')}"
   :enabled:
     - stdout_pretty_tests_report
+    - module_generator
 
 ...

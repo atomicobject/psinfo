@@ -1,8 +1,8 @@
-here = File.expand_path(File.dirname(__FILE__))
-PROJECT_CEEDLING_ROOT = "#{here}/vendor/ceedling"
+PROJECT_ROOT = File.expand_path(File.dirname(__FILE__))
+PROJECT_CEEDLING_ROOT = "#{PROJECT_ROOT}/vendor/ceedling"
 
 require "cucumber/rake/task"
-require "#{here}/config/env"
+require "#{PROJECT_ROOT}/config/env"
 load "#{PROJECT_CEEDLING_ROOT}/lib/rakefile.rb"
 
 task :default => [:clobber, "test:all", :release]
