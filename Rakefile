@@ -18,14 +18,22 @@ namespace :cuke do
 
   task :all => %w[ client server ]
 
-  namespace :client do
-    Dir["#{PROJECT_ROOT}/features/client/*.feature"].each do |file|
+  cuke_task_builder = lambda do |subdir|
+    Dir["#{PROJECT_ROOT}/features/#{subdir}/*.feature"].each do |file|
       file = File.basename(file, ".feature")
       task(file, :line) do |t, args|
-        command = "ruby bin/cucumber --format pretty features/client/#{file}.feature"
+        command = "ruby bin/cucumber --format pretty features/#{subdir}/#{file}.feature"
         command += ":#{args[:line]}" if args[:line]
         puts `#{command}`
       end
     end
+  end
+
+  namespace :client do
+    cuke_task_builder.call("client")
+  end
+
+  namespace :server do
+    cuke_task_builder.call("server")
   end
 end
