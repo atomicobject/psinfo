@@ -17,4 +17,15 @@ namespace :cuke do
   end
 
   task :all => %w[ client server ]
+
+  namespace :client do
+    Dir["#{PROJECT_ROOT}/features/client/*.feature"].each do |file|
+      file = File.basename(file, ".feature")
+      task(file, :line) do |t, args|
+        command = "ruby bin/cucumber --format pretty features/client/#{file}.feature"
+        command += ":#{args[:line]}" if args[:line]
+        puts `#{command}`
+      end
+    end
+  end
 end
