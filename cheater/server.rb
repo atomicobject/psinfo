@@ -4,7 +4,7 @@ require "socket"
 require "pp"
 
 def help
-  puts "usage: server.rb <ip> <port> <start>"
+  puts "usage: server.rb start <ip> <port>"
   puts "\tvalid commands:"
   puts "\tstart - run the server in a continuous loop"
   puts
