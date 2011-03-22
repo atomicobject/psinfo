@@ -28,15 +28,16 @@ const char* UnityStrPointless= " You Asked Me To Compare Nothing, Which Was Poin
 const char* UnityStrNullPointerForExpected= " Expected pointer to be NULL";
 const char* UnityStrNullPointerForActual  = " Actual pointer was NULL";
 
+// compiler-generic print formatting masks
 const _U_UINT UnitySizeMask[] = 
 {
-    255,
-    65535,
-    65535,
-    4294967295,
-    4294967295,
-    4294967295,
-    4294967295
+    255u,         // 0xFF
+    65535u,       // 0xFFFF
+    65535u,
+    4294967295u,  // 0xFFFFFFFF
+    4294967295u,
+    4294967295u,
+    4294967295u
 #ifdef UNITY_SUPPORT_64
     ,0xFFFFFFFFFFFFFFFF
 #endif
