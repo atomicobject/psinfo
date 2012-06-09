@@ -23,14 +23,14 @@
   :release:
     - *common_defines
 
-:tools:
-  :test_linker: &linker_argz
-    :executable: gcc.exe
-    :arguments:
-      - ${1}
-      - -lws2_32
-      - -o ${2}
-  :release_linker: *linker_argz
+# :tools:
+#   :test_linker: &linker_argz
+#     :executable: gcc.exe
+#     :arguments:
+#       - ${1}
+#       - -lws2_32
+#       - -o ${2}
+#   :release_linker: *linker_argz
 
 :test_runner:
   :includes:
