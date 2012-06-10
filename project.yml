@@ -23,6 +23,7 @@
   :release:
     - *common_defines
 
+# Tools parameters under Windows
 # :tools:
 #   :test_linker: &linker_argz
 #     :executable: gcc.exe
