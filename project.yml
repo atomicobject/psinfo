@@ -47,16 +47,6 @@
   :release:
     - *common_defines
 
-# Tools parameters under Windows
-# :tools:
-#   :test_linker: &linker_argz
-#     :executable: gcc.exe
-#     :arguments:
-#       - ${1}
-#       - -lws2_32
-#       - -o ${2}
-#   :release_linker: *linker_argz
-
 :cmock:
   :mock_prefix: mock_
   :when_no_prototypes: :warn
@@ -85,6 +75,16 @@
 # Ceedling defaults to using gcc for compiling, linking, etc.
 # As [:tools] is blank, gcc will be used (so long as it's in your system path)
 # See documentation to configure a given toolchain for use
+# Tools parameters under Windows
+# :tools:
+#   :test_linker: &linker_argz
+#     :executable: gcc.exe
+#     :arguments:
+#       - ${1}
+#       - -lws2_32
+#       - -o ${2}
+#   :release_linker: *linker_argz
+
 
 :plugins:
   :load_paths:
