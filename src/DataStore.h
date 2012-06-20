@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-DataStruct_T DataStore_RetrieveByIndex(UINT index);
+DataStruct_T* DataStore_RetrieveByIndex(UINT index);
 
 #endif // _DATASTORE_H_

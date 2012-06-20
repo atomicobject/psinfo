@@ -4,7 +4,7 @@
 
 static const DataStruct_T data = { 0xFF, OK };
 
-DataStruct_T DataStore_RetrieveByIndex(UINT index)
+DataStruct_T* DataStore_RetrieveByIndex(UINT index)
 {
   
 }

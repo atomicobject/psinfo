@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-MemOpResult_T DataLoader_Load(DataStruct_T data);
+MemOpResult_T DataLoader_Load(DataStruct_T* data);
 
 #endif // _DATALOADER_H_
