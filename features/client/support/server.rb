@@ -44,7 +44,7 @@ class Server
           ack
         when "get"
           stuff = @@data[command.shift]
-          if stuff.nil? then nack
+          if stuff.nil? then @socket.puts 0
           else
             @socket.puts stuff.size
             stuff.each { |(pid, name)| @socket.puts "#{pid} #{name}" }

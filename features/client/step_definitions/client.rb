@@ -31,12 +31,20 @@ When /^I ping the server$/ do
   When %+I run the client with parameters "#{Server::IP} #{Server::PORT} ping"+
 end
 
-When /^I put the pid "([^"]*)" with name "([^"]*)" for id "([^"]*)"$/ do |pid, name, id|
-  When %+I run the client with parameters "#{Server::IP} #{Server::PORT} put #{id} #{pid} #{name}"+
+Given /^I send the following pairs to the server for id "([^"]*)":$/ do |id, table|
+  table.hashes.each do |hash|
+    When %+I run the client with parameters "#{Server::IP} #{Server::PORT} put #{id} #{hash[:pid]} #{hash[:name]}"+
+  end
 end
 
 When /^I get the pairs for id "([^"]*)"$/ do |id|
   When %+I run the client with parameters "#{Server::IP} #{Server::PORT} get #{id}"+
+end
+
+Then /^the output should contain the following pairs:$/ do |table|
+  table.hashes.each do |hash|
+    Then %+the output should contain "#{hash[:pid]} #{hash[:name]}"+
+  end
 end
 
 Then /^the client should receive a positive response$/ do
