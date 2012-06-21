@@ -75,9 +75,15 @@ def cmd(*args)
   returned
 end
 
-When /^I put the pid "([^"]*)" with the name "([^"]*)" for id "([^"]*)"$/ do |pid, name, id|
-  @response = cmd "put", id, pid, name
-  verify_ack @response
+# When /^I put the pid "([^"]*)" with the name "([^"]*)" for id "([^"]*)"$/ do |pid, name, id|
+#   @response = cmd "put", id, pid, name
+#   verify_ack @response
+# end
+When /^I put the following pairs into the server for id "([^"]*)":$/ do |id, table|
+	table.hashes.each do |hash|
+		@response = cmd "put", id, hash[:pid], hash[:name]
+		verify_ack @response
+	end
 end
 
 When /^I get the pairs for id "([^"]*)"$/ do |id|
@@ -100,6 +106,12 @@ Then /^the pid "([^"]*)" with the name "([^"]*)" should be returned$/ do |pid, n
   pair[:name].should == name
 end
 
+Then /^the following pairs should be returned:$/ do |table|
+	table.hashes.each do |hash|
+		Then %+the pid "#{hash[:pid]}" with the name "#{hash[:name]}" should be returned+
+	end
+end
+
 When /^I ping the server$/ do
   @response = cmd "ping"
 end
@@ -114,4 +126,8 @@ end
 
 Then /^the client should receive a negative response$/ do
   verify_nack @response
+end
+
+Then /^the client should receive no records$/ do
+	@response.to_i.should be_zero
 end

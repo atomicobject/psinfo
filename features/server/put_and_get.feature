@@ -6,34 +6,45 @@ Feature: Put and get commands
 
     Scenario: Putting and getting one pair
       Given the server is online
-      When I put the pid "68" with the name "ack" for id "187"
-        And I get the pairs for id "187"
+      When I put the following pairs into the server for id "10:37":
+        | name | pid |
+        | ack  | 68  |
+      And I get the pairs for id "10:37"
       Then the pid "68" with the name "ack" should be returned
 
     Scenario: Putting and getting multiple pairs
       Given the server is online
-      When I put the pid "1" with the name "init" for id "abc"
-        And I put the pid "99" with the name "ps" for id "abc"
-        And I put the pid "187" with the name "ruby" for id "abc"
-
-      When I get the pairs for id "abc"
-      Then the pid "1" with the name "init" should be returned
-        And the pid "99" with the name "ps" should be returned
-        And the pid "187" with the name "ruby" should be returned
+      When I put the following pairs into the server for id "10:37":
+        | name | pid | 
+        | init | 1   | 
+        | ps   | 99  | 
+        | ruby | 187 | 
+      When I get the pairs for id "10:37"
+      Then the following pairs should be returned:
+        | name | pid | 
+        | init | 1   | 
+        | ps   | 99  | 
+        | ruby | 187 | 
 
     Scenario: Putting and getting different ids
       Given the server is online
-      When I put the pid "1" with the name "init" for id "123"
-        And I put the pid "99" with the name "ps" for id "abc"
+      When I put the following pairs into the server for id "11:42":
+        | name | pid | 
+        | init | 1   |
+      And I put the following pairs into the server for id "16:12":
+        | name | pid | 
+        | ps   | 99  |
 
-      When I get the pairs for id "123"
+      When I get the pairs for id "11:42"
       Then the pid "1" with the name "init" should be returned
 
-      When I get the pairs for id "abc"
+      When I get the pairs for id "16:12"
       Then the pid "99" with the name "ps" should be returned
 
     Scenario: Getting an id that the server doesn't know
       Given the server is online
-      When I put the pid "1" with the name "init" for id "abc"
-        And I get the pairs for id "aardvark"
-      Then the client should receive a negative response
+      When I put the following pairs into the server for id "00:17":
+        | name | pid | 
+        | init | 1   |
+      And I get the pairs for id "19:35"
+      Then the client should receive no records

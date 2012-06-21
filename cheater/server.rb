@@ -51,7 +51,7 @@ while keep_going do
     ack
   when "get"
     stuff = data[command.shift]
-    if stuff.empty? then nack
+    if stuff.empty? then @socket.puts 0
     else
       @socket.puts stuff.size
       stuff.each { |(pid, name)| @socket.puts "#{pid} #{name}" }
