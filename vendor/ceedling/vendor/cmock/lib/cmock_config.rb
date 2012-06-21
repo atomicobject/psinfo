@@ -31,7 +31,7 @@ class CMockConfig
     :includes_h_pre_orig_header  => nil, 
     :includes_h_post_orig_header => nil, 
     :includes_c_pre_header       => nil, 
-    :includes_c_post_header      => nil, 
+    :includes_c_post_header      => nil
   }
   
   def initialize(options=nil)
@@ -60,7 +60,7 @@ class CMockConfig
     options[:plugins].map! {|p| p.to_sym}
     @options = options
     
-    treat_as_map = standard_treat_as_map().clone
+    treat_as_map = standard_treat_as_map()#.clone
     treat_as_map.merge!(@options[:treat_as])
     @options[:treat_as] = treat_as_map
     
@@ -123,7 +123,7 @@ class CMockConfig
       'cstring'         => 'STRING',
       'CSTRING'         => 'STRING',
       'float'           => 'FLOAT',
-      'double'          => 'FLOAT',
+      'double'          => 'FLOAT'
     }
   end
 end
