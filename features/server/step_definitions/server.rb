@@ -75,10 +75,6 @@ def cmd(*args)
   returned
 end
 
-# When /^I put the pid "([^"]*)" with the name "([^"]*)" for id "([^"]*)"$/ do |pid, name, id|
-#   @response = cmd "put", id, pid, name
-#   verify_ack @response
-# end
 When /^I put the following pairs into the server for id "([^"]*)":$/ do |id, table|
 	table.hashes.each do |hash|
 		@response = cmd "put", id, hash[:pid], hash[:name]
