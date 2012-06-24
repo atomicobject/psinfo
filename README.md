@@ -17,11 +17,19 @@ Out of the box the project is setup to run the examples from the presentation (l
 
 We build the server in a similar fashion: create a git branch for it, wipe out old files, and start building. It may be helpful to start from the client branch if you want to reuse some of the code (like arguments parsing).
 
+### The protocol ###
+
+The client-server protocol is documented in the `doc/psinfo_protocol.pdf` file.
+
 ## Cucumber features ##
 
 Cucumber features exist for both the client and server. Run them with `rake cuke:client` and `rake cuke:server`, respectively.
 
 Run the Cucumber features regularly to track your progress. Once they're all passing, you're done!
+
+### The command line protocol ###
+
+The way in which the Cucumber test harness will run your `client` and `server` commands is documented in the `doc/psinfo_protocol.pdf` file.
 
 ### The Ruby cheater scripts ##
 
