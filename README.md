@@ -37,6 +37,15 @@ If you run Rake's `cuke:client` or `cuke:server` commands with the `CHEAT` envir
 
 Example: `cheat=yes rake cuke:server`
 
+## Git usage ##
+
+The document `doc/git_usage.pdf` contains some basic `git` usage commands - `add`, `commit`, etc.
+
+Excellent git resources:
+
+* [learn.github](http://learn.github.com/p/intro.html)
+* [Git Reference](http://gitref.org)
+
 ## Git tags ##
 
 Git tags have been used to mark the repository after a workshop concludes - i.e. the march-2011 tag refers to the code used in the March 2011 workshop.
