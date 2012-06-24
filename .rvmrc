@@ -3,3 +3,4 @@ rvm_gemset_create_on_use_flag=1
 rvm 1.8.7@psinfo
 alias benstein="bundle install --binstubs"
 alias benstiller='bundle install --binstubs --local'
+alias rake='bin/rake'
