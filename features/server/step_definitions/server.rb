@@ -46,7 +46,7 @@ When /^I run the server with parameters "([^"]*)"$/ do |params|
     When %+I run "ruby #{APP_ROOT}/cheater/server.rb #{params}"+
   else
     server_dir = "build/artifacts/release"
-    server = "#{APP_ROOT}/#{server_dir}/server.exe"
+    server = "#{APP_ROOT}/#{server_dir}/server"
     raise "There's no server in [#{server_dir}] ... try run [rake release] first." unless File.exist?(server)
     When %+I run "#{server} #{params}"+
   end

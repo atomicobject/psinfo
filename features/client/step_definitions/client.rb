@@ -21,7 +21,7 @@ When /^I run the client with parameters "([^"]*)"$/ do |params|
     When %+I run "ruby #{APP_ROOT}/cheater/client.rb #{params}"+
   else
     client_dir = "build/artifacts/release"
-    client = "#{APP_ROOT}/#{client_dir}/client.exe"
+    client = "#{APP_ROOT}/#{client_dir}/client"
     raise "There's no client in [#{client_dir}] ... try run [rake release] first." unless File.exist?(client)
     When %+I run "#{client} #{params}"+
   end
