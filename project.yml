@@ -63,8 +63,8 @@
     bool:     UINT8
 
 :module_generator:
-  :source_root: source 
-  :test_root: tests
+  :source_root: src 
+  :test_root: test
   :test_includes:
     - types.h
   :source_includes:
