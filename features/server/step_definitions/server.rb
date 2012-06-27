@@ -32,24 +32,29 @@ def verify_nack(str); nack?(str).should be_true; end
 def verify_not_nack(str); nack?(str).should be_false; end
 
 Given /^the server is online$/ do
+  When %+I run the server with parameters "start #{IP} #{PORT}"+
+end
+
+When /^I run the server with parameters "([^"]*)"$/ do |params|
+  server_cmd = []
+  if ENV["cheat"] or ENV["CHEAT"]
+    server_cmd << 'ruby'
+    server_cmd << "#{APP_ROOT}/cheater/server.rb"
+  else
+    server_dir = "build/artifacts/release"
+    server = "#{APP_ROOT}/#{server_dir}/server"
+    raise "There's no server in [#{server_dir}] ... try run [rake release] first." unless File.exist?(server)
+    server_cmd << server
+  end
+  server_cmd += [ 'start', IP, PORT ]
+
   if ServerState.server.nil? or not ServerState.server.alive?
-    ServerState.server = ChildProcess.build("ruby", "#{APP_ROOT}/cheater/server.rb", "start", IP, PORT)
+    ServerState.server = ChildProcess.build(*server_cmd)
     ServerState.server.io.inherit!
     ServerState.server.start
     sleep 0.5
   end
   ServerState.server.alive?.should be_true
-end
-
-When /^I run the server with parameters "([^"]*)"$/ do |params|
-  if ENV["cheat"] or ENV["CHEAT"]
-    When %+I run "ruby #{APP_ROOT}/cheater/server.rb #{params}"+
-  else
-    server_dir = "build/artifacts/release"
-    server = "#{APP_ROOT}/#{server_dir}/server"
-    raise "There's no server in [#{server_dir}] ... try run [rake release] first." unless File.exist?(server)
-    When %+I run "#{server} #{params}"+
-  end
 end
 
 When /^I send "([^"]*)" to the server$/ do |signal|
