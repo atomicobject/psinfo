@@ -31,6 +31,10 @@ def verify_ack(str); str.strip.should == "ACK"; end
 def verify_nack(str); nack?(str).should be_true; end
 def verify_not_nack(str); nack?(str).should be_false; end
 
+Given /^pending$/ do
+  pending 'reading stdout from a ChildProcess'
+end
+
 Given /^the server is online$/ do
   When %+I run the server with parameters "start #{IP} #{PORT}"+
 end
